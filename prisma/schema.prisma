@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model YoutubeChannel {
+  id    Int     @id @default(autoincrement())
+  title     String  @unique
+  stats YoutubeStats?
+}
+
+model YoutubeStats {
+  id    Int @id @default(autoincrement())
+  subscriber Int @default(0)
+  views Int @default(0)
+  channel YoutubeChannel @relation(fields: [channelId], references: [id])
+  channelId Int @unique
+}
